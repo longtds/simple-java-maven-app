@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  labels:
+    k8s-app: java-maven-app
+spec:
+  selector:
+    matchLabels:
+      k8s-app: java-maven-app
+  template:
+    metadata:
+      labels:
+        k8s-app: java-maven-app
+    spec:
+      containers:
+      - name: example-app
+        image: {{ IMAGE }}
+        resources:
+          limits:
+            cpu: 100m
+            memory: 300Mi
+          requests:
+            cpu: 50m
+            memory: 100Mi
+      - name: nginx
+        image: nginx:stable
+        resources:
+          limits:
+            cpu: 100m
+            memory: 300Mi
+          requests:
+            cpu: 50m
+            memory: 100Mi
+        ports:
+        - containerPort: 80
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-app
+  labels:
+    k8s-app: java-maven-app
+spec:
+  selector:
+    k8s-app: java-maven-app
+  ports:
+  - port: 80
+  type: NodePort
