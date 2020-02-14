@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: example-app
-        image: {{ IMAGE }}
+        image: {{ image }}
         resources:
           limits:
             cpu: 100m
