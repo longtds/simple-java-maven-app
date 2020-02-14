@@ -22,18 +22,10 @@ spec:
             memory: 300Mi
           requests:
             cpu: 50m
-            memory: 100Mi
-      - name: nginx
-        image: nginx:stable
-        resources:
-          limits:
-            cpu: 100m
-            memory: 300Mi
-          requests:
-            cpu: 50m
-            memory: 100Mi
+            memory: 200Mi
+        command: [ 'sh','-c','java -Xmx128m -jar /opt/*.jar && tail -f /var/log/lastlog' ]
         ports:
-        - containerPort: 80
+        - containerPort: 8080
           protocol: TCP
 ---
 apiVersion: v1
@@ -46,5 +38,5 @@ spec:
   selector:
     k8s-app: java-maven-app
   ports:
-  - port: 80
+  - port: 8080
   type: NodePort
